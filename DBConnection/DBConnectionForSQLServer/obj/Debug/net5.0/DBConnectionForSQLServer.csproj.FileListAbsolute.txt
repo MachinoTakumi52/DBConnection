@@ -1,0 +1,15 @@
+C:\Users\mmachino\Documents\C#\DBConnection\DBConnectionForSQLServer\bin\Debug\net5.0\DBConnectionForSQLServer.deps.json
+C:\Users\mmachino\Documents\C#\DBConnection\DBConnectionForSQLServer\bin\Debug\net5.0\DBConnectionForSQLServer.dll
+C:\Users\mmachino\Documents\C#\DBConnection\DBConnectionForSQLServer\bin\Debug\net5.0\ref\DBConnectionForSQLServer.dll
+C:\Users\mmachino\Documents\C#\DBConnection\DBConnectionForSQLServer\bin\Debug\net5.0\DBConnectionForSQLServer.pdb
+C:\Users\mmachino\Documents\C#\DBConnection\DBConnectionForSQLServer\obj\Debug\net5.0\DBConnectionForSQLServer.csproj.AssemblyReference.cache
+C:\Users\mmachino\Documents\C#\DBConnection\DBConnectionForSQLServer\obj\Debug\net5.0\DBConnectionForSQLServer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mmachino\Documents\C#\DBConnection\DBConnectionForSQLServer\obj\Debug\net5.0\DBConnectionForSQLServer.AssemblyInfoInputs.cache
+C:\Users\mmachino\Documents\C#\DBConnection\DBConnectionForSQLServer\obj\Debug\net5.0\DBConnectionForSQLServer.AssemblyInfo.cs
+C:\Users\mmachino\Documents\C#\DBConnection\DBConnectionForSQLServer\obj\Debug\net5.0\DBConnectionForSQLServer.csproj.CoreCompileInputs.cache
+C:\Users\mmachino\Documents\C#\DBConnection\DBConnectionForSQLServer\obj\Debug\net5.0\DBConnectionForSQLServer.dll
+C:\Users\mmachino\Documents\C#\DBConnection\DBConnectionForSQLServer\obj\Debug\net5.0\ref\DBConnectionForSQLServer.dll
+C:\Users\mmachino\Documents\C#\DBConnection\DBConnectionForSQLServer\obj\Debug\net5.0\DBConnectionForSQLServer.pdb
+C:\Users\mmachino\Documents\C#\DBConnection\DBConnectionForSQLServer\bin\Debug\net5.0\CommonLibrary.dll
+C:\Users\mmachino\Documents\C#\DBConnection\DBConnectionForSQLServer\bin\Debug\net5.0\CommonLibrary.pdb
+C:\Users\mmachino\Documents\C#\DBConnection\DBConnectionForSQLServer\obj\Debug\net5.0\DBConnectionForSQLServer.csproj.CopyComplete
