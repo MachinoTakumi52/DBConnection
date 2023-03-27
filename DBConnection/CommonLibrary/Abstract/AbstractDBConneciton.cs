@@ -64,7 +64,7 @@ namespace CommonLibrary.Abstract
         /// <param name="sql">SQK文</param>
         /// <param name="parameters">パラメータ</param>
         /// <returns></returns>
-        public abstract IEnumerable<T> Select<T>(T a, string sql, IEnumerable<CommandParameter> parameters = null);
+        public abstract IEnumerable<T> Select<T>(T a, string sql, IEnumerable<CommandParameter> parameters = null, SqlTransaction tran = null);
 
         /// <summary>
         /// インサート関数

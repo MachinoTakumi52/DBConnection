@@ -70,9 +70,9 @@ namespace DBConnectionForSQLServer
         /// <param name="sql">SQL文</param>
         /// <param name="parameters">パラメータ's</param>
         /// <returns></returns>
-        public override IEnumerable<T> Select<T>(T a, string sql, IEnumerable<CommandParameter> parameters = null)
+        public override IEnumerable<T> Select<T>(T a, string sql, IEnumerable<CommandParameter> parameters = null, SqlTransaction tran = null)
         {
-            return this.Select<T>(sql, parameters);
+            return this.Select<T>(sql, parameters,tran);
         }
 
 
