@@ -5,13 +5,13 @@ VisualStudioVersion = 16.0.32630.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBConnectionForSQLServer", "DBConnectionForSQLServer\DBConnectionForSQLServer.csproj", "{8969271F-A14D-4489-8B02-4E8AC9AC9BCA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonLibrary", "CommonLibrary\CommonLibrary.csproj", "{6DB59B7B-FC42-47EC-85AE-05241F288DEE}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBConnectionForMySQL", "DBConnectionForMySQL\DBConnectionForMySQL.csproj", "{FAD8C9B9-807E-4A3D-A16C-0549E7E3443B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBConnectionForOracle", "DBConnectionForOracle\DBConnectionForOracle.csproj", "{0EFDF950-B19C-4076-A6ED-BDEC456541E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "TestProject\TestProject.csproj", "{753818BD-AE02-4DD3-9B1F-39B1473EC47A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject", "TestProject\TestProject.csproj", "{753818BD-AE02-4DD3-9B1F-39B1473EC47A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBConnectionTools", "DBConnectionTools\DBConnectionTools.csproj", "{08EFBD1A-34BB-47B9-8905-854E38A3C9A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,6 @@ Global
 		{8969271F-A14D-4489-8B02-4E8AC9AC9BCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8969271F-A14D-4489-8B02-4E8AC9AC9BCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8969271F-A14D-4489-8B02-4E8AC9AC9BCA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6DB59B7B-FC42-47EC-85AE-05241F288DEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6DB59B7B-FC42-47EC-85AE-05241F288DEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6DB59B7B-FC42-47EC-85AE-05241F288DEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6DB59B7B-FC42-47EC-85AE-05241F288DEE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FAD8C9B9-807E-4A3D-A16C-0549E7E3443B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FAD8C9B9-807E-4A3D-A16C-0549E7E3443B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FAD8C9B9-807E-4A3D-A16C-0549E7E3443B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +35,10 @@ Global
 		{753818BD-AE02-4DD3-9B1F-39B1473EC47A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{753818BD-AE02-4DD3-9B1F-39B1473EC47A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{753818BD-AE02-4DD3-9B1F-39B1473EC47A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08EFBD1A-34BB-47B9-8905-854E38A3C9A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08EFBD1A-34BB-47B9-8905-854E38A3C9A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08EFBD1A-34BB-47B9-8905-854E38A3C9A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08EFBD1A-34BB-47B9-8905-854E38A3C9A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
