@@ -2,15 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <Description>SQLServer用のDBConnection</Description>
+    <Description>SQLServer用のDB接続ライブラリ</Description>
     <Authors>takumi_machino</Authors>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.123" />
-    <PackageReference Include="DBConnectionTools" Version="1.0.1" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DBConnectionTools\DBConnectionTools.csproj" />
   </ItemGroup>
 
 </Project>

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 using testSolution.testFile.Constant;
-using CommonLibrary;
+using DBConnectionTools;
 
 namespace testSolution.testFile
 {

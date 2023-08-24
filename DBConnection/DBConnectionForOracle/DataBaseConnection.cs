@@ -1,6 +1,6 @@
-﻿using CommonLibrary;
-using CommonLibrary.Abstract;
-using Dapper;
+﻿using Dapper;
+using DBConnectionTools;
+using DBConnectionTools.Abstract;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
