@@ -4,6 +4,7 @@ using DBConnectionTools.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
@@ -15,8 +16,10 @@ namespace DBConnectionForSQLServer
     /// <summary>
     /// データベースコネクションクラス
     /// </summary>
-    public class DataBaseConnection : AbstractDBConnection
+    public class DataBaseConnection : AbstractDBConnection<SqlConnection, SqlTransaction>
     {
+
+        protected override SqlConnection SqlConnection { get; }
 
         /// <summary>
         /// コンストラクタ
@@ -24,8 +27,12 @@ namespace DBConnectionForSQLServer
         /// </summary>
         /// <param name="connectionString">接続文字列</param>
         public DataBaseConnection(string connectionString)
-            : base(connectionString)
         {
+            // データベース接続の準備
+            this.SqlConnection = new SqlConnection(connectionString);
+
+            //接続開始
+            this.SqlConnection.Open();
         }
 
         /// <summary>
@@ -35,7 +42,6 @@ namespace DBConnectionForSQLServer
         public override SqlTransaction BeginTransaction()
         {
             return SqlConnection.BeginTransaction();
-
         }
 
         /// <summary>
@@ -170,7 +176,7 @@ namespace DBConnectionForSQLServer
         /// <typeparam name="T"></typeparam>
         /// <param name="entitties">INSERTの対象となるエンティティ</param>
         /// <param name="transaction">トランザクション</param>
-        //public override void BulkInsert<T>(SqlTransaction transaction, IEnumerable<T> entitties)
+        //public override void BulkInsert<T>(DbTransaction transaction, IEnumerable<T> entitties)
         //{
         //    //SqlCommandに、コネクションとトランザクションを入れる
         //    SqlCommand command = new SqlCommand();
@@ -323,7 +329,7 @@ namespace DBConnectionForSQLServer
         {
             //SqlCommandに、コネクションとトランザクションをセットする
             SqlCommand command = new SqlCommand();
-            command.Connection = SqlConnection;
+            command.Connection = this.SqlConnection;
             command.Transaction = transaction;
 
             //delete sql文作成

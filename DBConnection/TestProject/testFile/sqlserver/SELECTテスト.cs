@@ -1,10 +1,11 @@
 using createEntity;
-using DBConnectionForSQLServer;
+
 using System;
 using System.Collections.Generic;
 using Xunit;
 using testSolution.testFile.Constant;
 using DBConnectionTools;
+using DBConnectionForSQLServer;
 
 namespace testSolution.testFile
 {
@@ -37,8 +38,7 @@ namespace testSolution.testFile
 
             using (DataBaseConnection conn = new DataBaseConnection(Constants.connectString))
             {
-
-                //リストで返却
+                //リストで返却 
                 var r = conn.Select<M_ITEM>(sql, new List<CommandParameter>() { { new CommandParameter("@ITEM_ID", 1, System.Data.DbType.Int64) } });
                 var a = conn.Select<M_ITEM>(sql, new List<CommandParameter>() { { new CommandParameter("@ITEM_ID", 1) } });
 

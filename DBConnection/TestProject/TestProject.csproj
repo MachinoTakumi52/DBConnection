@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DBConnectionForSQLServer" Version="1.0.1" />
-    <PackageReference Include="DBConnectionTools" Version="1.0.1" />
+    <PackageReference Include="DBConnectionForSQLServer" Version="1.0.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
@@ -19,6 +18,14 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="testFile\posgre\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DBConnectionForSQLServer\DBConnectionForSQLServer.csproj" />
   </ItemGroup>
 
 </Project>

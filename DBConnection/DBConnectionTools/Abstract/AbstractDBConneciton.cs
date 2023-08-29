@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -10,27 +11,12 @@ namespace DBConnectionTools.Abstract
     /// <summary>
     /// DBConnection抽象クラス
     /// </summary>
-    public abstract class AbstractDBConnection : IDisposable
+    public abstract class AbstractDBConnection<U, V>  where U : DbConnection where V : DbTransaction , IDisposable
     {
         /// <summary>
         /// SQLコネクションプロパティ
         /// </summary>
-        protected SqlConnection SqlConnection { get; }
-
-        /// <summary>
-        /// コンストラクタ
-        /// 接続文字列を引数に
-        /// </summary>
-        /// <param name="connectionString">接続文字列</param>
-        public AbstractDBConnection(string connectionString)
-        {
-
-            // データベース接続の準備
-            this.SqlConnection = new SqlConnection(connectionString);
-
-            //接続開始
-            this.SqlConnection.Open();
-        }
+        protected abstract U SqlConnection { get; }
 
         /// <summary>
         /// Dispose実装
@@ -45,8 +31,7 @@ namespace DBConnectionTools.Abstract
         /// オープントランザクション関数
         /// </summary>
         /// <returns></returns>
-        public abstract SqlTransaction BeginTransaction();
-
+        public abstract V BeginTransaction();
 
         /// <summary>
         /// セレクト関数
@@ -56,7 +41,7 @@ namespace DBConnectionTools.Abstract
         /// <param name="parameters">パラメータ</param>
         /// <param name="tran">トランザクション</param>
         /// <returns></returns>
-        public abstract IEnumerable<T> Select<T>(string sql, IEnumerable<CommandParameter> parameters = null, SqlTransaction tran = null);
+        public abstract IEnumerable<T> Select<T>(string sql, IEnumerable<CommandParameter> parameters = null, V tran = null);
 
         /// <summary>
         /// SELECT文　戻り値：匿名型
@@ -66,7 +51,7 @@ namespace DBConnectionTools.Abstract
         /// <param name="sql">SQK文</param>
         /// <param name="parameters">パラメータ</param>
         /// <returns></returns>
-        public abstract IEnumerable<T> Select<T>(T a, string sql, IEnumerable<CommandParameter> parameters = null, SqlTransaction tran = null);
+        public abstract IEnumerable<T> Select<T>(T a, string sql, IEnumerable<CommandParameter> parameters = null, V tran = null);
 
         /// <summary>
         /// インサート関数
@@ -74,7 +59,7 @@ namespace DBConnectionTools.Abstract
         /// <typeparam name="T"></typeparam>
         /// <param name="transaction">トランザクション</param>
         /// <param name="entity">INSERTの対象となるエンティティ</param>
-        public abstract void Insert<T>(SqlTransaction transaction, T entity);
+        public abstract void Insert<T>(V transaction, T entity);
 
         /// <summary>
         /// バルクインサート関数
@@ -82,7 +67,7 @@ namespace DBConnectionTools.Abstract
         /// <typeparam name="T"></typeparam>
         /// <param name="transaction">トランザクション</param>
         /// <param name="entitties">INSERTの対象となるエンティティ</param>
-        public abstract void BulkInsert<T>(SqlTransaction transaction, IEnumerable<T> entitties);
+        public abstract void BulkInsert<T>(V transaction, IEnumerable<T> entitties);
 
         /// <summary>
         /// アップデート関数
@@ -92,7 +77,7 @@ namespace DBConnectionTools.Abstract
         /// <param name="builder">EntityModifyBuilder</param>
         /// <param name="phraseWhere">絞り込み　Where句：Whereから書いて</param>
         /// <param name="parameters">Where句のパラメータ</param>
-        public abstract void Update<T>(SqlTransaction transaction, EntityModifyBuilder<T> builder, string phraseWhere, IEnumerable<CommandParameter> parameters = null);
+        public abstract void Update<T>(V transaction, EntityModifyBuilder<T> builder, string phraseWhere, IEnumerable<CommandParameter> parameters = null);
 
         /// <summary>
         /// デリート関数
@@ -101,6 +86,6 @@ namespace DBConnectionTools.Abstract
         /// <param name="transaction">トランザクション</param>
         /// <param name="pharaseWhere">絞り込み　Where句：Whereから書いて</param>
         /// <param name="parameters">Where句のパラメータ</param>
-        public abstract void Delete<T>(SqlTransaction transaction, string pharaseWhere, IEnumerable<CommandParameter> parameters = null);
+        public abstract void Delete<T>(V transaction, string pharaseWhere, IEnumerable<CommandParameter> parameters = null);
     }
 }
