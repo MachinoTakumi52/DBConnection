@@ -11,7 +11,7 @@ namespace DBConnectionTools.Abstract
     /// <summary>
     /// DBConnection抽象クラス
     /// </summary>
-    public abstract class AbstractDBConnection<U, V>  where U : DbConnection where V : DbTransaction , IDisposable
+    public abstract class AbstractDBConnection<U, V> where U : DbConnection where V : DbTransaction , IDisposable
     {
         /// <summary>
         /// SQLコネクションプロパティ

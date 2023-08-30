@@ -16,9 +16,11 @@ namespace DBConnectionForSQLServer
     /// <summary>
     /// データベースコネクションクラス
     /// </summary>
-    public class DataBaseConnection : AbstractDBConnection<SqlConnection, SqlTransaction>
+    public class DataBaseConnection : AbstractDBConnection<SqlConnection, SqlTransaction> ,IDisposable
     {
-
+        /// <summary>
+        /// DBConneciton
+        /// </summary>
         protected override SqlConnection SqlConnection { get; }
 
         /// <summary>
@@ -43,6 +45,7 @@ namespace DBConnectionForSQLServer
         {
             return SqlConnection.BeginTransaction();
         }
+
 
         /// <summary>
         /// SELECT文
@@ -72,12 +75,13 @@ namespace DBConnectionForSQLServer
         }
 
         /// <summary>
-        /// SELECT文　匿名型
+        /// SELECT文　匿名型用
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="a">匿名型のオブジェクトを渡す</param>
         /// <param name="sql">SQL文</param>
-        /// <param name="parameters">パラメータ's</param>
+        /// <param name="parameters">パラメータ</param>
+        /// /// <param name="tran">トランザクション</param>
         /// <returns></returns>
         public override IEnumerable<T> Select<T>(T a, string sql, IEnumerable<CommandParameter> parameters = null, SqlTransaction tran = null)
         {

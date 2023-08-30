@@ -6,9 +6,9 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v5.0": {
-      "DBConnectionForSQLServer/1.0.0": {
+      "DBConnectionForSQLServer/1.0.2": {
         "dependencies": {
-          "DBConnectionTools": "1.0.0",
+          "DBConnectionTools": "1.0.1",
           "Dapper": "2.0.123",
           "System.Data.SqlClient": "4.8.5"
         },
@@ -21,17 +21,6 @@
           "lib/net5.0/Dapper.dll": {
             "assemblyVersion": "2.0.0.0",
             "fileVersion": "2.0.123.33578"
-          }
-        }
-      },
-      "DBConnectionTools/1.0.0": {
-        "dependencies": {
-          "System.Data.SqlClient": "4.8.5"
-        },
-        "runtime": {
-          "lib/net5.0/DBConnectionTools.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
           }
         }
       },
@@ -109,11 +98,19 @@
           "System.Security.Principal.Windows": "4.7.0"
         }
       },
-      "System.Security.Principal.Windows/4.7.0": {}
+      "System.Security.Principal.Windows/4.7.0": {},
+      "DBConnectionTools/1.0.1": {
+        "dependencies": {
+          "System.Data.SqlClient": "4.8.5"
+        },
+        "runtime": {
+          "DBConnectionTools.dll": {}
+        }
+      }
     }
   },
   "libraries": {
-    "DBConnectionForSQLServer/1.0.0": {
+    "DBConnectionForSQLServer/1.0.2": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -124,13 +121,6 @@
       "sha512": "sha512-RDFF4rBLLmbpi6pwkY7q/M6UXHRJEOerplDGE5jwEkP/JGJnBauAClYavNKJPW1yOTWRPIyfj4is3EaJxQXILQ==",
       "path": "dapper/2.0.123",
       "hashPath": "dapper.2.0.123.nupkg.sha512"
-    },
-    "DBConnectionTools/1.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-yqPcAjv7VlxcF8/pbc7s/Gy5sXm6jr9aX0QZAimM0jW8Cbl5tfQ1zH9fvlAevhNbibuap4Ft97Bwj/SL5gyM6Q==",
-      "path": "dbconnectiontools/1.0.0",
-      "hashPath": "dbconnectiontools.1.0.0.nupkg.sha512"
     },
     "Microsoft.NETCore.Platforms/3.1.0": {
       "type": "package",
@@ -194,6 +184,11 @@
       "sha512": "sha512-ojD0PX0XhneCsUbAZVKdb7h/70vyYMDYs85lwEI+LngEONe/17A0cFaRFqZU+sOEidcVswYWikYOQ9PPfjlbtQ==",
       "path": "system.security.principal.windows/4.7.0",
       "hashPath": "system.security.principal.windows.4.7.0.nupkg.sha512"
+    },
+    "DBConnectionTools/1.0.1": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }
