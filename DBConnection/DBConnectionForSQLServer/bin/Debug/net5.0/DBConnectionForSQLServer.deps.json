@@ -9,18 +9,18 @@
       "DBConnectionForSQLServer/1.0.2": {
         "dependencies": {
           "DBConnectionTools": "1.0.1",
-          "Dapper": "2.0.123",
+          "Dapper": "2.0.151",
           "System.Data.SqlClient": "4.8.5"
         },
         "runtime": {
           "DBConnectionForSQLServer.dll": {}
         }
       },
-      "Dapper/2.0.123": {
+      "Dapper/2.0.151": {
         "runtime": {
           "lib/net5.0/Dapper.dll": {
             "assemblyVersion": "2.0.0.0",
-            "fileVersion": "2.0.123.33578"
+            "fileVersion": "2.0.151.35995"
           }
         }
       },
@@ -115,12 +115,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Dapper/2.0.123": {
+    "Dapper/2.0.151": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-RDFF4rBLLmbpi6pwkY7q/M6UXHRJEOerplDGE5jwEkP/JGJnBauAClYavNKJPW1yOTWRPIyfj4is3EaJxQXILQ==",
-      "path": "dapper/2.0.123",
-      "hashPath": "dapper.2.0.123.nupkg.sha512"
+      "sha512": "sha512-mMcZgx1lim0/i1Ozu+lgnBM4GwNIHpCuxV6BV2ovsEfZAXRAq4jb6RIhxGDcVjtmXMLPpdp85jHPdDjBMMwejw==",
+      "path": "dapper/2.0.151",
+      "hashPath": "dapper.2.0.151.nupkg.sha512"
     },
     "Microsoft.NETCore.Platforms/3.1.0": {
       "type": "package",

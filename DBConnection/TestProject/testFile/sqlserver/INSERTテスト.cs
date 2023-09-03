@@ -3,6 +3,7 @@ using DBConnectionForSQLServer;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using testSolution.testFile.Constant;
 using Xunit;
 
@@ -13,9 +14,7 @@ namespace testSolution.testFile
         [Fact]
         public void インサート()
         {
-            var sw = new System.Diagnostics.Stopwatch();
-            sw.Start();
-            var b = new M_ITEM(14, "14", "ぐぐぐぐ", 111111, 1, 1, 8, 1,DateTime.Now,"aaa", "aaa", DateTime.Now,"bbb", "bbb");
+            var b = new M_TEST(1,false, "bbb");
 
 
             using (var conn = new DataBaseConnection(Constants.connectString))
@@ -23,12 +22,8 @@ namespace testSolution.testFile
             {
                 try
                 {
-                    conn.Insert<M_ITEM>(tran,b);
+                    conn.Insert<M_TEST>(tran,b);
                     tran.Commit();
-                    sw.Stop();
-                    TimeSpan ts = sw.Elapsed;
-                    Debug.WriteLine($"　{ts}");
-
                 }
                 catch (Exception)
                 {
@@ -76,7 +71,7 @@ namespace testSolution.testFile
                     tran.Commit();
 
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     tran.Rollback();
                 }
@@ -103,6 +98,61 @@ namespace testSolution.testFile
                 }
 
             }
+        }
+
+        [Fact]
+        public void インサート速度検証()
+        {
+
+            /*
+             * bulkcopy処理で、単体insertを500回流した時
+            826
+            739
+            690
+            662
+            693
+
+            insert文を作成して流す処理で、単体insertを500回流した時
+            single
+            141
+            138
+            178
+            104
+            140
+            */
+
+            //インスタンスの生成
+            var sw = new Stopwatch();
+
+            long aaa = 0;
+            for (int i = 0; i < 500; i++)
+            {
+                //計測の開始
+                sw.Start();
+
+                using (var conn = new DataBaseConnection(Constants.connectString))
+                using (var tran = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        var b = new M_TEST(i, false, "aaa");
+                        conn.Insert<M_TEST>(tran, b);
+                        tran.Commit();
+
+                    }
+                    catch (Exception e)
+                    {
+                        tran.Rollback();
+                    }
+
+                }
+                sw.Stop();
+                Debug.WriteLine(i + "aaa:" + sw.ElapsedMilliseconds);
+                aaa += sw.ElapsedMilliseconds;
+                sw.Reset();
+            }
+
+            Debug.WriteLine("total:" + aaa);
         }
     }
 }

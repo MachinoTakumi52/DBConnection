@@ -59,19 +59,21 @@ namespace DBConnectionForSQLServer
         {
 
             //パラメータインスタンス生成
-            var dynamicParameters = new DynamicParameters();
+            DynamicParameters sqlparams = null;
 
             //パラメータの中身がある時だけ実行
             //パラメータを使わない場合null
             if (parameters != null)
             {
+                sqlparams = new DynamicParameters();
                 //受けったパラメータの数だけ回す
                 foreach (var parameter in parameters)
                 {
-                    dynamicParameters.Add(parameter.Name, parameter.Value, parameter.DBType);
+                    sqlparams.Add(parameter.Name, parameter.Value,parameter.DBType);
                 }
             }
-            return SqlConnection.Query<T>(sql, dynamicParameters, tran);
+            
+            return SqlConnection.Query<T>(sql, sqlparams, tran);
         }
 
         /// <summary>
@@ -97,18 +99,77 @@ namespace DBConnectionForSQLServer
         /// <param name="transaction">トランザクション</param>
         public override void Insert<T>(SqlTransaction transaction, T entity)
         {
-            //Insert文実行
-            //BulkInsert呼び出し
-            //エンティティが一つの場合でもインサート可
-            this.BulkInsert(transaction, new T[] { entity });
+            //SqlCommandに、コネクションとトランザクションを入れる
+            SqlCommand command = new SqlCommand();
+            command.Connection = SqlConnection;
+            command.Transaction = transaction;
+
+            //insert sql文作成  sql文に「INSERT INTO テーブル名 (」を入れる
+            StringBuilder sql = new(@"INSERT INTO " + typeof(T).Name + " (");
+
+            //エンティティからプロパティ名を取得する処理
+            //取得したプロパティ名をsql文に入れる
+            foreach (var prop in typeof(T).GetProperties())
+            {
+                //初めのプロパティ名だけコンマをつけない処理
+                //２つ目以降のプロパティ名だけにコンマをつける
+                if (!ReferenceEquals(prop, typeof(T).GetProperties().First()))
+                {
+                    sql.AppendLine(",");
+                }
+                sql.AppendLine(prop.Name);
+            }
+
+            //パラメータをセットするための準備
+            sql.AppendLine(") VALUES");
+
+            //パラメータをセットするリスト
+            var parameters = new List<CommandParameter>();
+
+            //INSERTのVALUES以降のSQL文の作成
+            //パラメータの作成とパラメータに値を入れる処理
+            sql.AppendLine("(");
+
+            //エンティティからプロパティ名を取得し、パラメータ作成 sql文に入れる
+            foreach (var prop in typeof(T).GetProperties())
+            {
+                //初めのプロパティ名だけコンマをつけない処理
+                //２つ目以降のプロパティ名だけにコンマをつける
+                if (!ReferenceEquals(prop, typeof(T).GetProperties().First()))
+                {
+                    sql.AppendLine(",");
+                }
+                //パラメータ名セット
+                sql.AppendLine("@" + prop.Name);
+
+                //パラメータに値をセットする
+                parameters.Add(new CommandParameter("@" + prop.Name, prop.GetValue(entity)));
+            }
+
+            //最後の値は、コンマをつけない
+            sql.AppendLine(")");
+
+            //パラメータをコマンドにセットする
+            foreach (var parameter in parameters)
+            {
+                //コマンドにパラメータ名、parameterオブジェクトのデータの型、パラメータに格納する値をセットする
+                var param = new SqlParameter(parameter.Name, parameter.Value);
+                command.Parameters.Add(param);
+            }
+
+            //CommandにSqlを入れる
+            command.CommandText = sql.ToString();
+
+            //INSERT実行
+            command.ExecuteNonQuery();
         }
 
-        ///// <summary>
-        ///// bulkInsert文
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        ///// <param name="transaction"></param>
-        ///// <param name="entitties"></param>
+        /// <summary>
+        /// bulkInsert文
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="transaction"></param>
+        /// <param name="entitties"></param>
         public override void BulkInsert<T>(SqlTransaction transaction, IEnumerable<T> entitties)
         {
             //エンティティのプロパティ情報取得
@@ -180,22 +241,22 @@ namespace DBConnectionForSQLServer
         /// <typeparam name="T"></typeparam>
         /// <param name="entitties">INSERTの対象となるエンティティ</param>
         /// <param name="transaction">トランザクション</param>
-        //public override void BulkInsert<T>(DbTransaction transaction, IEnumerable<T> entitties)
+        //public override void BulkInsert<T>(SqlTransaction transaction, IEnumerable<T> entitties)
         //{
-        //    //SqlCommandに、コネクションとトランザクションを入れる
+        //    SqlCommandに、コネクションとトランザクションを入れる
         //    SqlCommand command = new SqlCommand();
         //    command.Connection = SqlConnection;
         //    command.Transaction = transaction;
 
-        //    //insert sql文作成  sql文に「INSERT INTO テーブル名 (」を入れる
+        //    insert sql文作成  sql文に「INSERT INTO テーブル名(」を入れる
         //    StringBuilder sql = new(@"INSERT INTO " + typeof(T).Name + " (");
 
-        //    //エンティティからプロパティ名を取得する処理
-        //    //取得したプロパティ名をsql文に入れる
+        //    エンティティからプロパティ名を取得する処理
+        //    取得したプロパティ名をsql文に入れる
         //    foreach (var prop in typeof(T).GetProperties())
         //    {
-        //        //初めのプロパティ名だけコンマをつけない処理
-        //        //２つ目以降のプロパティ名だけにコンマをつける
+        //        初めのプロパティ名だけコンマをつけない処理
+        //        ２つ目以降のプロパティ名だけにコンマをつける
         //        if (!ReferenceEquals(prop, typeof(T).GetProperties().First()))
         //        {
         //            sql.AppendLine(",");
@@ -203,38 +264,38 @@ namespace DBConnectionForSQLServer
         //        sql.AppendLine(prop.Name);
         //    }
 
-        //    //パラメータをセットするための準備
+        //    パラメータをセットするための準備
         //    sql.AppendLine(") VALUES");
 
-        //    //パラメータをセットするリスト
+        //    パラメータをセットするリスト
         //    var parameters = new List<CommandParameter>();
 
-        //    //INSERTのVALUES以降のSQL文の作成
-        //    //パラメータの作成とパラメータに値を入れる処理
-        //    //IEnumerable<T> entitties にインデックスをつけ、
-        //    //パラメータの末尾にインデックスを付与し、
-        //    //他のパラメータと区別させる
+        //    INSERTのVALUES以降のSQL文の作成
+        //    パラメータの作成とパラメータに値を入れる処理
+        //    IEnumerable<T> entitties にインデックスをつけ、
+        //    パラメータの末尾にインデックスを付与し、
+        //    他のパラメータと区別させる
         //    foreach (var entity in entitties.Select((item, index) => new { item, index }))
         //    {
         //        sql.AppendLine("(");
 
-        //        //エンティティからプロパティ名を取得し、パラメータ作成 sql文に入れる
+        //        エンティティからプロパティ名を取得し、パラメータ作成 sql文に入れる
         //        foreach (var prop in typeof(T).GetProperties())
         //        {
-        //            //初めのプロパティ名だけコンマをつけない処理
-        //            //２つ目以降のプロパティ名だけにコンマをつける
+        //            初めのプロパティ名だけコンマをつけない処理
+        //            ２つ目以降のプロパティ名だけにコンマをつける
         //            if (!ReferenceEquals(prop, typeof(T).GetProperties().First()))
         //            {
         //                sql.AppendLine(",");
         //            }
-        //            //インデックスを付与しパラメータを区別する
+        //            インデックスを付与しパラメータを区別する
         //            sql.AppendLine("@" + prop.Name + entity.index);
 
-        //            //パラメータに値をセットする
+        //            パラメータに値をセットする
         //            parameters.Add(new CommandParameter("@" + prop.Name + entity.index, prop.GetValue(entity.item)));
         //        }
 
-        //        //最後の値は、コンマをつけない
+        //        最後の値は、コンマをつけない
         //        sql.AppendLine(")");
 
         //        if (entity.index != entitties.Count() - 1)
@@ -243,18 +304,18 @@ namespace DBConnectionForSQLServer
         //        }
         //    }
 
-        //    //パラメータをコマンドにセットする
+        //    パラメータをコマンドにセットする
         //    foreach (var parameter in parameters)
         //    {
-        //        //コマンドにパラメータ名、parameterオブジェクトのデータの型、パラメータに格納する値をセットする
+        //        コマンドにパラメータ名、parameterオブジェクトのデータの型、パラメータに格納する値をセットする
         //        var param = new SqlParameter(parameter.Name, parameter.Value);
         //        command.Parameters.Add(param);
         //    }
 
-        //    //CommandにSqlを入れる
+        //    CommandにSqlを入れる
         //    command.CommandText = sql.ToString();
 
-        //    //INSERT実行
+        //    INSERT実行
         //    command.ExecuteNonQuery();
         //}
 

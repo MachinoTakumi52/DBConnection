@@ -39,7 +39,7 @@ namespace testSolution.testFile
             using (DataBaseConnection conn = new DataBaseConnection(Constants.connectString))
             {
                 //リストで返却 
-                var r = conn.Select<M_ITEM>(sql, new List<CommandParameter>() { { new CommandParameter("@ITEM_ID", 1, System.Data.DbType.Int64) } });
+                //var r = conn.Select<M_ITEM>(sql, new List<CommandParameter>() { { new CommandParameter("@ITEM_ID", 1, System.Data.DbType.Int64) } });
                 var a = conn.Select<M_ITEM>(sql, new List<CommandParameter>() { { new CommandParameter("@ITEM_ID", 1) } });
 
                 Console.WriteLine("");
@@ -80,6 +80,23 @@ namespace testSolution.testFile
 
                 //リストで返却
                 var r = conn.Select<M_ITEM>(sql, new List<CommandParameter>() { { new CommandParameter("@ITEM_ID", 1, System.Data.DbType.Int32) }, { new CommandParameter("@ITEM_CD", "2") } });
+
+                Console.WriteLine("");
+            }
+        }
+
+        [Fact]
+        public void 検証()
+        {
+            //SQL定義
+            string sql = "SELECT * FROM M_TEST WHERE name = @name";
+            //パラメータ指定
+
+            using (DataBaseConnection conn = new DataBaseConnection(Constants.connectString))
+            {
+                //リストで返却 
+                //var r = conn.Select<M_ITEM>(sql, new List<CommandParameter>() { { new CommandParameter("@ITEM_ID", 1, System.Data.DbType.Int64) } });
+                var a = conn.Select<M_ITEM>(sql, new List<CommandParameter>() { { new CommandParameter("@name",null ) } });
 
                 Console.WriteLine("");
             }
