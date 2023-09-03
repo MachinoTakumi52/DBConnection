@@ -96,7 +96,7 @@ namespace testSolution.testFile
             {
                 //ƒŠƒXƒg‚Å•Ô‹p 
                 //var r = conn.Select<M_ITEM>(sql, new List<CommandParameter>() { { new CommandParameter("@ITEM_ID", 1, System.Data.DbType.Int64) } });
-                var a = conn.Select<M_ITEM>(sql, new List<CommandParameter>() { { new CommandParameter("@name",null ) } });
+                var a = conn.Select<M_TEST>(sql , new List<CommandParameter>() { { new CommandParameter("@name", "bbb") } });
 
                 Console.WriteLine("");
             }

@@ -94,7 +94,69 @@ namespace DBConnectionForPostgreSQL
         /// <param name="transaction">トランザクション</param>
         public override void Insert<T>(NpgsqlTransaction transaction, T entity)
         {
-            throw new NotImplementedException();
+            //NpgsqlCommandに、コネクションとトランザクションを入れる
+            NpgsqlCommand command = new NpgsqlCommand();
+            command.Connection = SqlConnection;
+            command.Transaction = transaction;
+
+            //insert sql文作成  sql文に「INSERT INTO テーブル名 (」を入れる
+            StringBuilder sql = new(@"INSERT INTO " + typeof(T).Name + " (");
+
+            //エンティティからプロパティ名を取得する処理
+            //取得したプロパティ名をsql文に入れる
+            foreach (var prop in typeof(T).GetProperties())
+            {
+                //初めのプロパティ名だけコンマをつけない処理
+                //２つ目以降のプロパティ名だけにコンマをつける
+                if (!ReferenceEquals(prop, typeof(T).GetProperties().First()))
+                {
+                    sql.AppendLine(",");
+                }
+                sql.AppendLine(prop.Name);
+            }
+
+            //パラメータをセットするための準備
+            sql.AppendLine(") VALUES");
+
+            //パラメータをセットするリスト
+            var parameters = new List<CommandParameter>();
+
+            //INSERTのVALUES以降のSQL文の作成
+            //パラメータの作成とパラメータに値を入れる処理
+            sql.AppendLine("(");
+
+            //エンティティからプロパティ名を取得し、パラメータ作成 sql文に入れる
+            foreach (var prop in typeof(T).GetProperties())
+            {
+                //初めのプロパティ名だけコンマをつけない処理
+                //２つ目以降のプロパティ名だけにコンマをつける
+                if (!ReferenceEquals(prop, typeof(T).GetProperties().First()))
+                {
+                    sql.AppendLine(",");
+                }
+                //パラメータ名セット
+                sql.AppendLine("@" + prop.Name);
+
+                //パラメータに値をセットする
+                parameters.Add(new CommandParameter("@" + prop.Name, prop.GetValue(entity)));
+            }
+
+            //最後の値は、コンマをつけない
+            sql.AppendLine(")");
+
+            //パラメータをコマンドにセットする
+            foreach (var parameter in parameters)
+            {
+                //コマンドにパラメータ名、parameterオブジェクトのデータの型、パラメータに格納する値をセットする
+                var param = new NpgsqlParameter(parameter.Name, parameter.Value);
+                command.Parameters.Add(param);
+            }
+
+            //CommandにSqlを入れる
+            command.CommandText = sql.ToString();
+
+            //INSERT実行
+            command.ExecuteNonQuery();
         }
 
         /// <summary>
@@ -105,56 +167,81 @@ namespace DBConnectionForPostgreSQL
         /// <param name="entitties"></param>
         public override void BulkInsert<T>(NpgsqlTransaction transaction, IEnumerable<T> entitties)
         {
-            //エンティティのプロパティ情報取得
-            var properties = typeof(T).GetProperties();
+            //    SqlCommandに、コネクションとトランザクションを入れる
+            NpgsqlCommand command = new NpgsqlCommand();
+            command.Connection = SqlConnection;
+            command.Transaction = transaction;
 
-            //データテーブルインスタンス生成
-            var dataTable = new DataTable();
+            //insert sql文作成  sql文に「INSERT INTO テーブル名(」を入れる
 
-            //データテーブル作成
-            foreach (var property in properties)
+            StringBuilder sql = new(@"INSERT INTO " + typeof(T).Name + " (");
+
+            //    エンティティからプロパティ名を取得する処理
+            //    取得したプロパティ名をsql文に入れる
+            foreach (var prop in typeof(T).GetProperties())
             {
-
-                if (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>)) //null許容型の時
+                //初めのプロパティ名だけコンマをつけない処理
+                //    ２つ目以降のプロパティ名だけにコンマをつける
+                if (!ReferenceEquals(prop, typeof(T).GetProperties().First()))
                 {
-                    dataTable.Columns.Add(property.Name, Nullable.GetUnderlyingType(property.PropertyType));
+                    sql.AppendLine(",");
                 }
-                else //null非許容型の時
+                sql.AppendLine(prop.Name);
+            }
+
+            //    パラメータをセットするための準備
+            sql.AppendLine(") VALUES");
+
+            //    パラメータをセットするリスト
+            var parameters = new List<CommandParameter>();
+
+            //    INSERTのVALUES以降のSQL文の作成
+            //    パラメータの作成とパラメータに値を入れる処理
+            //    IEnumerable<T> entitties にインデックスをつけ、
+            //    パラメータの末尾にインデックスを付与し、
+            //    他のパラメータと区別させる
+            foreach (var entity in entitties.Select((item, index) => new { item, index }))
+            {
+                sql.AppendLine("(");
+
+                //        エンティティからプロパティ名を取得し、パラメータ作成 sql文に入れる
+                foreach (var prop in typeof(T).GetProperties())
                 {
-                    dataTable.Columns.Add(property.Name, property.PropertyType);
+                    //            初めのプロパティ名だけコンマをつけない処理
+                    //            ２つ目以降のプロパティ名だけにコンマをつける
+                    if (!ReferenceEquals(prop, typeof(T).GetProperties().First()))
+                    {
+                        sql.AppendLine(",");
+                    }
+                    //            インデックスを付与しパラメータを区別する
+                    sql.AppendLine("@" + prop.Name + entity.index);
+
+                    //            パラメータに値をセットする
+                    parameters.Add(new CommandParameter("@" + prop.Name + entity.index, prop.GetValue(entity.item)));
+                }
+
+                //最後の値は、コンマをつけない
+                sql.AppendLine(")");
+
+                if (entity.index != entitties.Count() - 1)
+                {
+                    sql.AppendLine(",");
                 }
             }
 
-            //登録するデータをデータテーブルに追加
-            foreach (var entitiy in entitties)
+            //    パラメータをコマンドにセットする
+            foreach (var parameter in parameters)
             {
-                //一行ずつ作成
-                var row = dataTable.NewRow();
-
-                //プロパティの一つ一つに値を入れる
-                //TODO:値が入っているかいないかで分岐させる
-                //DataRowって基本的にString型にしていれる必要あり
-                foreach (var property in properties)
-                {
-                    row[property.Name] = property.GetValue(entitiy) ?? DBNull.Value;
-                }
-
-                //登録データ行追加
-                dataTable.Rows.Add(row);
+                //        コマンドにパラメータ名、parameterオブジェクトのデータの型、パラメータに格納する値をセットする
+                var param = new SqlParameter(parameter.Name, parameter.Value);
+                command.Parameters.Add(param);
             }
 
-            //バルクコピーインスタンス
-            using (SqlBulkCopy bulkCopy = new SqlBulkCopy(this.SqlConnection, SqlBulkCopyOptions.Default, transaction))
-            {
-                //タイムアウト指定
-                bulkCopy.BulkCopyTimeout = 60;
+            //    CommandにSqlを入れる
+            command.CommandText = sql.ToString();
 
-                //テーブル名指定
-                bulkCopy.DestinationTableName = typeof(T).Name;
-
-                //一括Insert実行
-                bulkCopy.WriteToServer(dataTable);
-            }
+            //    INSERT実行
+            command.ExecuteNonQuery();
         }
 
         /// <summary>
@@ -190,7 +277,7 @@ namespace DBConnectionForPostgreSQL
                 sql.AppendLine(map.PropertyInfo.Name + "=" + "@" + map.PropertyInfo.Name);
 
                 //コマンドにパラメータ名、パラメータに格納する値をセットする
-                var param = new SqlParameter(map.PropertyInfo.Name, map.Value);
+                var param = new NpgsqlParameter(map.PropertyInfo.Name, map.Value);
                 command.Parameters.Add(param);
             }
 
@@ -207,7 +294,7 @@ namespace DBConnectionForPostgreSQL
                 foreach (var parameter in parameters)
                 {
                     //コマンドにパラメータ名、パラメータに格納する値をセットする
-                    var param = new SqlParameter(parameter.Name, parameter.Value);
+                    var param = new NpgsqlParameter(parameter.Name, parameter.Value);
                     command.Parameters.Add(param);
                 }
             }
@@ -244,7 +331,7 @@ namespace DBConnectionForPostgreSQL
                 foreach (var parameter in parameters)
                 {
                     //コマンドにパラメータ名、パラメータに格納する値をセットする
-                    var param = new SqlParameter(parameter.Name, parameter.Value);
+                    var param = new NpgsqlParameter(parameter.Name, parameter.Value);
                     command.Parameters.Add(param);
                 }
             }
