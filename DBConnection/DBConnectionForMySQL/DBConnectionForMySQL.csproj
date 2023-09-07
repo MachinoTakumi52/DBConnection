@@ -2,10 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <Authors>takumi_machino</Authors>
+    <Company>takumi_machino</Company>
+    <Description>MySQLSQL用のDB接続ライブラリ</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="Dapper" Version="2.0.151" />
+    <PackageReference Include="MySql.Data" Version="8.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DBConnectionTools\DBConnectionTools.csproj" />
   </ItemGroup>
 
 </Project>

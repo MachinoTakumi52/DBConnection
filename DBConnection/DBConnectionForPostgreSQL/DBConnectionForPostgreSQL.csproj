@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <Authors>takumi_machino</Authors>
+    <Description>PostgreSQL用のDB接続ライブラリ</Description>
   </PropertyGroup>
 
   <ItemGroup>
