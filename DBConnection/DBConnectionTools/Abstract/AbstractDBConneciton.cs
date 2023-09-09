@@ -59,7 +59,8 @@ namespace DBConnectionTools.Abstract
         /// <typeparam name="T"></typeparam>
         /// <param name="transaction">トランザクション</param>
         /// <param name="entity">INSERTの対象となるエンティティ</param>
-        public abstract void Insert<T>(V transaction, T entity);
+        /// <param name="tableName">テーブル名</param>
+        public abstract void Insert<T>(V transaction, T entity,string tableName = "");
 
         /// <summary>
         /// バルクインサート関数
@@ -67,7 +68,8 @@ namespace DBConnectionTools.Abstract
         /// <typeparam name="T"></typeparam>
         /// <param name="transaction">トランザクション</param>
         /// <param name="entitties">INSERTの対象となるエンティティ</param>
-        public abstract void BulkInsert<T>(V transaction, IEnumerable<T> entitties);
+        /// <param name="tableName">テーブル名</param>
+        public abstract void BulkInsert<T>(V transaction, IEnumerable<T> entitties, string tableName = "");
 
         /// <summary>
         /// アップデート関数
@@ -77,7 +79,8 @@ namespace DBConnectionTools.Abstract
         /// <param name="builder">EntityModifyBuilder</param>
         /// <param name="phraseWhere">絞り込み　Where句：Whereから書いて</param>
         /// <param name="parameters">Where句のパラメータ</param>
-        public abstract void Update<T>(V transaction, EntityModifyBuilder<T> builder, string phraseWhere, IEnumerable<CommandParameter> parameters = null);
+        /// <param name="tableName">テーブル名</param>
+        public abstract void Update<T>(V transaction, EntityModifyBuilder<T> builder, string pharaseWhere = "", IEnumerable<CommandParameter> parameters = null, string tableName = "");
 
         /// <summary>
         /// デリート関数
@@ -86,6 +89,7 @@ namespace DBConnectionTools.Abstract
         /// <param name="transaction">トランザクション</param>
         /// <param name="pharaseWhere">絞り込み　Where句：Whereから書いて</param>
         /// <param name="parameters">Where句のパラメータ</param>
-        public abstract void Delete<T>(V transaction, string pharaseWhere, IEnumerable<CommandParameter> parameters = null);
+        /// <param name="tableName">テーブル名</param>
+        public abstract void Delete<T>(V transaction, string pharaseWhere = "", IEnumerable<CommandParameter> parameters = null, string tableName = "");
     }
 }

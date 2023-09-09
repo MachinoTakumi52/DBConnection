@@ -1,5 +1,5 @@
 ﻿using createEntity;
-using DBConnectionForSQLServer;
+using DBConnectionForPostgreSQL;
 using DBConnectionTools;
 using System;
 using System.Collections.Generic;
@@ -9,12 +9,12 @@ using Xunit;
 
 namespace testSolution.testFile
 {
-    public class SqlServerDELETEテスト
+    public class PosgreDELETEテスト
     {
         [Fact]
         public static void デリート()
         {
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.posgreSQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try
@@ -32,12 +32,12 @@ namespace testSolution.testFile
         [Fact]
         public static void デリートテーブル名を引数に()
         {
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.posgreSQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try
                 {
-                    conn.Delete<M_TEST>(tran, "where TEST_ID = 8", null, "M_TEST");
+                    conn.Delete<M_TEST>(tran, "where TEST_ID = 8",null,"M_TEST");
                     tran.Commit();
                 }
                 catch (Exception e)
@@ -50,7 +50,7 @@ namespace testSolution.testFile
         [Fact]
         public static void デリートパラメータ有()
         {
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.posgreSQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try
@@ -68,12 +68,12 @@ namespace testSolution.testFile
         [Fact]
         public static void デリートパラメータ有テーブル名を引数に()
         {
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.posgreSQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try
                 {
-                    conn.Delete<M_TEST>(tran, "where TEST_ID = @testId", new List<CommandParameter>() { new CommandParameter("@testId", 6) }, "M_TEST");
+                    conn.Delete<M_TEST>(tran, "where TEST_ID = @testId", new List<CommandParameter>() { new CommandParameter("@testId", 6) },"M_TEST");
                     tran.Commit();
                 }
                 catch (Exception e)
@@ -86,17 +86,17 @@ namespace testSolution.testFile
         [Fact]
         public static void デリートパラメータ複数有テーブル名を引数に()
         {
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.posgreSQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try
                 {
-                    conn.Delete<M_TEST>(tran, "where TEST_ID IN ( @testId0,@testId1,@testId2)",
-                        new List<CommandParameter>() {
+                    conn.Delete<M_TEST>(tran, "where TEST_ID IN ( @testId0,@testId1,@testId2)", 
+                        new List<CommandParameter>() { 
                             new CommandParameter("@testId0", 5),
                             new CommandParameter("@testId1", 4),
                             new CommandParameter("@testId2", 3)
-                        });
+                        } );
                     tran.Commit();
                 }
                 catch (Exception e)
@@ -116,10 +116,10 @@ namespace testSolution.testFile
             デリートパラメータ複数有テーブル名を引数に();
         }
 
-        [Fact]
+            [Fact]
         public static void デリートオール()
         {
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.posgreSQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try

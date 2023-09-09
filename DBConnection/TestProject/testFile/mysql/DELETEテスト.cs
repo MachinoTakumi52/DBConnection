@@ -1,5 +1,5 @@
 ﻿using createEntity;
-using DBConnectionForSQLServer;
+using DBConnectionForMySQL;
 using DBConnectionTools;
 using System;
 using System.Collections.Generic;
@@ -9,12 +9,12 @@ using Xunit;
 
 namespace testSolution.testFile
 {
-    public class SqlServerDELETEテスト
+    public class mySQLDELETEテスト
     {
         [Fact]
         public static void デリート()
         {
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.mySQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try
@@ -32,7 +32,7 @@ namespace testSolution.testFile
         [Fact]
         public static void デリートテーブル名を引数に()
         {
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.mySQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try
@@ -50,7 +50,7 @@ namespace testSolution.testFile
         [Fact]
         public static void デリートパラメータ有()
         {
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.mySQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try
@@ -68,7 +68,7 @@ namespace testSolution.testFile
         [Fact]
         public static void デリートパラメータ有テーブル名を引数に()
         {
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.mySQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try
@@ -86,7 +86,7 @@ namespace testSolution.testFile
         [Fact]
         public static void デリートパラメータ複数有テーブル名を引数に()
         {
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.mySQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try
@@ -119,7 +119,7 @@ namespace testSolution.testFile
         [Fact]
         public static void デリートオール()
         {
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.mySQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try

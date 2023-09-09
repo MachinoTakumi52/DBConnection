@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v5.0": {
-      "DBConnectionForSQLServer/1.0.2": {
+      "DBConnectionForSQLServer/1.0.3": {
         "dependencies": {
           "DBConnectionTools": "1.0.1",
           "Dapper": "2.0.151",
@@ -110,7 +110,7 @@
     }
   },
   "libraries": {
-    "DBConnectionForSQLServer/1.0.2": {
+    "DBConnectionForSQLServer/1.0.3": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

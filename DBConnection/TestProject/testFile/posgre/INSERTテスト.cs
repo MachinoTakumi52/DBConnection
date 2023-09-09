@@ -1,5 +1,5 @@
 ﻿using createEntity;
-using DBConnectionForSQLServer;
+using DBConnectionForPostgreSQL;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,20 +9,20 @@ using Xunit;
 
 namespace testSolution.testFile
 {
-    public class SqlServerINSERTテスト
+    public class PosgreINSERTテスト
     {
         [Fact]
         public void インサート()
         {
-            var b = new M_TEST(1, false, "aaa");
+            var b = new M_TEST(1,false, "aaa");
 
 
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.posgreSQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try
                 {
-                    conn.Insert<M_TEST>(tran, b);
+                    conn.Insert<M_TEST>(tran,b);
                     tran.Commit();
                 }
                 catch (Exception e)
@@ -39,7 +39,7 @@ namespace testSolution.testFile
             var b = new M_TEST(2, true, "bbb");
 
 
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.posgreSQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try
@@ -59,12 +59,12 @@ namespace testSolution.testFile
         public void バルクインサート()
         {
             List<M_TEST> a = new List<M_TEST>() { new M_TEST(3, false, "ccc"), new M_TEST(4, false, "ddd"), new M_TEST(5, false, "eee"), new M_TEST(6, false, "fff") };
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.posgreSQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try
                 {
-                    conn.BulkInsert<M_TEST>(tran, a);
+                    conn.BulkInsert<M_TEST>(tran,a);
                     tran.Commit();
 
                 }
@@ -80,7 +80,7 @@ namespace testSolution.testFile
         public void バルクインサートテーブル名引数に()
         {
             List<M_TEST> a = new List<M_TEST>() { new M_TEST(7, false, "ggg"), new M_TEST(8, false, "hhh"), new M_TEST(9, false, "iii") };
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.posgreSQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try
@@ -136,7 +136,7 @@ namespace testSolution.testFile
                 //計測の開始
                 sw.Start();
 
-                using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+                using (var conn = new DataBaseConnection(Constants.posgreSQLConnectString))
                 using (var tran = conn.BeginTransaction())
                 {
                     try

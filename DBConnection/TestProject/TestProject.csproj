@@ -20,10 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="testFile\posgre\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\DBConnectionForMySQL\DBConnectionForMySQL.csproj" />
+    <ProjectReference Include="..\DBConnectionForPostgreSQL\DBConnectionForPostgreSQL.csproj" />
     <ProjectReference Include="..\DBConnectionForSQLServer\DBConnectionForSQLServer.csproj" />
   </ItemGroup>
 

@@ -1,5 +1,5 @@
 ﻿using createEntity;
-using DBConnectionForSQLServer;
+using DBConnectionForPostgreSQL;
 using DBConnectionTools;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using Xunit;
 
 namespace testSolution.testFile
 {
-    public class SqlServerUPDATEテスト
+    public class PosgreUPDATEテスト
     {
         [Fact]
         public void アップデート()
@@ -21,7 +21,7 @@ namespace testSolution.testFile
             builder.Add<string>(x => x.name, "ああああ");
             builder.Add<bool>(x => x.status, true);
 
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.posgreSQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try
@@ -50,13 +50,13 @@ namespace testSolution.testFile
             builder.Add<string>(x => x.name, "いいいい");
             builder.Add<bool>(x => x.status, true);
 
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.posgreSQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try
                 {
 
-                    conn.Update<M_TEST>(tran, builder, "WHERE TEST_ID = 4", null, "M_TEST");
+                    conn.Update<M_TEST>(tran, builder, "WHERE TEST_ID = 4", null, "M_TEST"); 
                     tran.Commit();
 
                 }
@@ -70,23 +70,23 @@ namespace testSolution.testFile
 
 
         [Fact]
-        public void アップデートパラメータ有()
+        public void 　アップデートパラメータ有()
         {
 
             var builder = new EntityModifyBuilder<M_TEST>();
 
 
 
-            builder.Add<string>(x => x.name, "うううう");
-            builder.Add<bool>(x => x.status, true);
+            builder.Add<string>(x => x.name,"うううう");
+            builder.Add<bool>(x => x.status ,true);
 
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.posgreSQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try
                 {
 
-                    conn.Update<M_TEST>(tran, builder, "WHERE TEST_ID = @testId", new List<CommandParameter>() { { new CommandParameter("@testId", 6) } });
+                    conn.Update<M_TEST>(tran, builder, "WHERE TEST_ID = @testId", new List<CommandParameter>() { { new CommandParameter("@testId", 6)} });
                     tran.Commit();
 
                 }
@@ -109,13 +109,13 @@ namespace testSolution.testFile
             builder.Add<string>(x => x.name, "ええええ");
             builder.Add<bool>(x => x.status, true);
 
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.posgreSQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try
                 {
 
-                    conn.Update<M_TEST>(tran, builder, "WHERE TEST_ID = @testId", new List<CommandParameter>() { { new CommandParameter("@testId", 8) } }, "M_TEST");
+                    conn.Update<M_TEST>(tran, builder, "WHERE TEST_ID = @testId", new List<CommandParameter>() { { new CommandParameter("@testId", 8) } },"M_TEST");
                     tran.Commit();
 
                 }
@@ -138,7 +138,7 @@ namespace testSolution.testFile
             builder.Add<string>(x => x.name, "おおおお");
             builder.Add<bool>(x => x.status, false);
 
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.posgreSQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try
@@ -177,7 +177,7 @@ namespace testSolution.testFile
             builder.Add<string>(x => x.name, "あいう");
             builder.Add<bool>(x => x.status, true);
 
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.posgreSQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try
@@ -194,6 +194,5 @@ namespace testSolution.testFile
 
             }
         }
-
     }
 }

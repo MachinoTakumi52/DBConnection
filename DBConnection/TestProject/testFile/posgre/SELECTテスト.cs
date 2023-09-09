@@ -1,17 +1,16 @@
 using createEntity;
-
 using System;
 using System.Collections.Generic;
 using Xunit;
 using testSolution.testFile.Constant;
 using DBConnectionTools;
-using DBConnectionForSQLServer;
+using DBConnectionForPostgreSQL;
 
 namespace testSolution.testFile
 {
-    public class SqlServerSELECTテスト
+    public class PosgreSELECTテスト
     {
-
+   
         [Fact]
         public void 全件()
         {
@@ -19,11 +18,11 @@ namespace testSolution.testFile
             string sql = "SELECT * FROM M_TEST";
             //パラメータ指定
 
-            using (DataBaseConnection conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (DataBaseConnection conn = new DataBaseConnection(Constants.posgreSQLConnectString))
             {
 
                 //リストで返却
-                var r = conn.Select<M_TEST>(sql);
+                var r =  conn.Select<M_TEST>(sql);
 
                 Console.WriteLine("");
             }
@@ -36,7 +35,7 @@ namespace testSolution.testFile
             string sql = "SELECT * FROM M_TEST WHERE TEST_ID = @TEST_ID";
             //パラメータ指定
 
-            using (DataBaseConnection conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (DataBaseConnection conn = new DataBaseConnection(Constants.posgreSQLConnectString))
             {
                 //リストで返却 
                 var a = conn.Select<M_TEST>(sql, new List<CommandParameter>() { { new CommandParameter("@TEST_ID", 1) } });
@@ -48,18 +47,18 @@ namespace testSolution.testFile
         [Fact]
         public void 匿名セレクト()
         {
-
-            using (DataBaseConnection conn = new DataBaseConnection(Constants.sqlServerConnectString))
+   
+            using (DataBaseConnection conn = new DataBaseConnection(Constants.posgreSQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 //SQL定義
                 var sql2 = "SELECT TEST_ID,name FROM M_TEST";
 
                 //タプル型
-                var bbb = conn.Select<(int TEST_ID, string name)>(sql2, null, tran);
+                var bbb = conn.Select<(int TEST_ID, string name)>(sql2,null,tran);
 
                 //匿名クラス
-                var ccc = conn.Select(new { TEST_ID = default(int), name = default(string) }, sql2, null, tran);
+                var ccc = conn.Select(new { TEST_ID = default(int), name = default(string) }, sql2,null,tran);
 
 
                 Console.WriteLine("");
@@ -74,7 +73,7 @@ namespace testSolution.testFile
             string sql = "SELECT * FROM M_TEST WHERE status = @status and name = @name";
             //パラメータ指定
 
-            using (DataBaseConnection conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (DataBaseConnection conn = new DataBaseConnection(Constants.posgreSQLConnectString))
             {
 
                 //リストで返却
@@ -92,6 +91,5 @@ namespace testSolution.testFile
             匿名セレクト();
             条件検索パラメータ複数();
         }
-
     }
 }

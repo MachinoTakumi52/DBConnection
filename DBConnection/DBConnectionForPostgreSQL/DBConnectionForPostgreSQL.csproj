@@ -4,6 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <Authors>takumi_machino</Authors>
     <Description>PostgreSQL用のDB接続ライブラリ</Description>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

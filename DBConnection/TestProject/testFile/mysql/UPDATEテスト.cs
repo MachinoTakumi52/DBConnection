@@ -1,5 +1,5 @@
 ﻿using createEntity;
-using DBConnectionForSQLServer;
+using DBConnectionForMySQL;
 using DBConnectionTools;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using Xunit;
 
 namespace testSolution.testFile
 {
-    public class SqlServerUPDATEテスト
+    public class mySQLUPDATEテスト
     {
         [Fact]
         public void アップデート()
@@ -21,7 +21,7 @@ namespace testSolution.testFile
             builder.Add<string>(x => x.name, "ああああ");
             builder.Add<bool>(x => x.status, true);
 
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.mySQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try
@@ -50,7 +50,7 @@ namespace testSolution.testFile
             builder.Add<string>(x => x.name, "いいいい");
             builder.Add<bool>(x => x.status, true);
 
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.mySQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try
@@ -80,7 +80,7 @@ namespace testSolution.testFile
             builder.Add<string>(x => x.name, "うううう");
             builder.Add<bool>(x => x.status, true);
 
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.mySQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try
@@ -109,7 +109,7 @@ namespace testSolution.testFile
             builder.Add<string>(x => x.name, "ええええ");
             builder.Add<bool>(x => x.status, true);
 
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.mySQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try
@@ -138,7 +138,7 @@ namespace testSolution.testFile
             builder.Add<string>(x => x.name, "おおおお");
             builder.Add<bool>(x => x.status, false);
 
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.mySQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try
@@ -177,7 +177,7 @@ namespace testSolution.testFile
             builder.Add<string>(x => x.name, "あいう");
             builder.Add<bool>(x => x.status, true);
 
-            using (var conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (var conn = new DataBaseConnection(Constants.mySQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 try

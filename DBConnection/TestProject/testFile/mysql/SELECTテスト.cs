@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using Xunit;
 using testSolution.testFile.Constant;
 using DBConnectionTools;
-using DBConnectionForSQLServer;
+using DBConnectionForMySQL;
 
 namespace testSolution.testFile
 {
-    public class SqlServerSELECTテスト
+    public class mySQLSELECTテスト
     {
 
         [Fact]
@@ -19,7 +19,7 @@ namespace testSolution.testFile
             string sql = "SELECT * FROM M_TEST";
             //パラメータ指定
 
-            using (DataBaseConnection conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (DataBaseConnection conn = new DataBaseConnection(Constants.mySQLConnectString))
             {
 
                 //リストで返却
@@ -36,7 +36,7 @@ namespace testSolution.testFile
             string sql = "SELECT * FROM M_TEST WHERE TEST_ID = @TEST_ID";
             //パラメータ指定
 
-            using (DataBaseConnection conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (DataBaseConnection conn = new DataBaseConnection(Constants.mySQLConnectString))
             {
                 //リストで返却 
                 var a = conn.Select<M_TEST>(sql, new List<CommandParameter>() { { new CommandParameter("@TEST_ID", 1) } });
@@ -49,7 +49,7 @@ namespace testSolution.testFile
         public void 匿名セレクト()
         {
 
-            using (DataBaseConnection conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (DataBaseConnection conn = new DataBaseConnection(Constants.mySQLConnectString))
             using (var tran = conn.BeginTransaction())
             {
                 //SQL定義
@@ -74,7 +74,7 @@ namespace testSolution.testFile
             string sql = "SELECT * FROM M_TEST WHERE status = @status and name = @name";
             //パラメータ指定
 
-            using (DataBaseConnection conn = new DataBaseConnection(Constants.sqlServerConnectString))
+            using (DataBaseConnection conn = new DataBaseConnection(Constants.mySQLConnectString))
             {
 
                 //リストで返却

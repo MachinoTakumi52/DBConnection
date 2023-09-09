@@ -5,6 +5,7 @@
     <Authors>takumi_machino</Authors>
     <Company>takumi_machino</Company>
     <Description>MySQLSQL用のDB接続ライブラリ</Description>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
